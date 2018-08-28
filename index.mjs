@@ -1,13 +1,21 @@
 import express from "express";
 
-const PORT = process.env.PORT;
+import movies from "./routes/movies"
 
+const PORT = process.env.NODE_ENV === "development" ? 3000 : process.env.PORT;
+
+
+
+//const PORT = process.env.PORT;
+const serverPrefix = "";
 
 const app = express();
 
-app.get("/", (req, res) => {
-    res.send({ hello: "world" })
+app.use(`${serverPrefix}/movies`, movies);
+
+app.listen(PORT, () => {
+    console.log("Listening on port " + PORT);
 });
 
-app.listen(PORT);
+export default app;
 
