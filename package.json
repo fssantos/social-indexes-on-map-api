@@ -1,0 +1,28 @@
+{
+  "name": "exerciseback",
+  "version": "1.0.0",
+  "description": "Backend exercise simulating a movie rental store api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-modules index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fssantos/exerciseback.git"
+  },
+  "author": "Filipe Souza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fssantos/exerciseback/issues"
+  },
+  "homepage": "https://github.com/fssantos/exerciseback#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "engines": {
+    "node": "v8.10.0",
+    "npm": "6.1.0"
+  },
+  "devDependencies": {}
+}
