@@ -2,14 +2,13 @@
 "use strict";
 
 import express from "express";
-import controller from "../controllers/movies";
+import controller from "../controllers/rents";
 
 const router = express.Router();
 
-
 router.get("/", controller.list);
-router.get("/search/", controller.query);
-
+router.post("/", controller.create);
+router.put("/:id", controller.update);
 
 
 export default router;

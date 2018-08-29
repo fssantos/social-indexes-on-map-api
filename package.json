@@ -19,7 +19,12 @@
   },
   "homepage": "https://github.com/fssantos/exerciseback#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
   },
   "engines": {
     "node": "v8.10.0",
