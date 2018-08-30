@@ -35,7 +35,7 @@ var users = [
 
 const auth = {
     login: (req, res, next) => {
-        const { name, email, password } = req.body;
+        const { email, password } = req.body;
         console.log(email);
         // usually this would be a database call:
         knex("user").where({ email: email }).then(result => {
