@@ -1,55 +1,51 @@
 #!/usr/bin/env node
 "use strict";
 
+import knex from "../config/db";
+
+
+const rentStatus = {
+    RENTED: "rented"
+}
+
+
 
 const rents = {
     list: (req, res, next) => {
-        res.send({ rents: "an array of rents" });
+        knex("rent").select("*").then((result) => {
+            res.send(result);
+        })
+
     },
 
     create(req, res, next) {
-        const data = req.body;
+        /*
+            in the case we would like to use header information
+        to find who is the user
+        const token = req.headers.authorization;
+        const user_id = findUserByToken(token); */
 
-        setTimeout(() => { res.json(data) }, 3000);
-
-        return;
-
-        /*         coupon
-                    .save()
-                    .then(newCoupon => {
-                        res.json(newCoupon);
-                    })
-                    .catch(error => {
-                        next(error);
-                    }); */
+        /*For now we just say user_id=1 is renting*/
+        const { movie_id } = req.body;
+        const user_id = "1";
+        const status = rentStatus.RENTED;
+        knex('rent').insert({
+            movie_id,
+            user_id,
+            status,
+        }).then(result => { res.status(200).json({ message: "rent ok!" }); });
     },
 
     update(req, res, next) {
         const id = req.params.id || "";
-        const data = (req.body);
+        const { status } = req.body;
+        const returned_on = Date.now();
 
-        setTimeout(() => {
-            res.json({ data: data, id: id })
-        }, 3000);
+        knex('rent').where({ id: id }).update({
+            status,
+            returned_on
+        }).then(result => { res.status(200).json({ message: "returned ok!" }); });
 
-        return;
-
-
-
-        /*         Coupon.findOneAndUpdate(
-                    {
-                        _id: id
-                    },
-                    { $set: data },
-                    { new: true }
-                )
-                    .exec()
-                    .then(updatedCoupon => {
-                        res.json(updatedCoupon);
-                    })
-                    .catch(error => {
-                        next(error);
-                    }); */
     },
 
 

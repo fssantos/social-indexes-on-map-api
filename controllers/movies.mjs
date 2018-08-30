@@ -1,24 +1,29 @@
 #!/usr/bin/env node
 "use strict";
 
-import db from "../knexfile";
+import knex from "../config/db";
 
 
 const movies = {
     list: (req, res, next) => {
-        res.send({ hello: "3nd world" });
+
+        knex("movie").select("*").then((result) => {
+            res.send(result);
+        })
+
     },
 
     query: (req, res, next) => {
-
-        db.query("SELECT * FROM posts", (err, result) => {
-
-            const query = req.query;
+        const query = req.query["q"].replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2")
+        /*
+            the code above tranforms UmTiraNoJardim to Um Tira No Jardim
+        for example and since SQL is case/punctuation insentitive the query
+        will work anyway. Maybe a fuzzy filter would be better but I guess it is not
+        the goal
+        */
+        knex("movie").where({ title: query }).then(result => {
             res.send(result);
-            res.send({ query: req.query["q"].toLowerCase() });
-        });
-
-
+        })
     }
 }
 

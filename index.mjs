@@ -20,6 +20,8 @@ const serverPrefix = "";
 
 const app = express();
 
+
+
 /* app.get("/createdb", (req, res) => {
     let sql = "CREATE DATABASE 4all";
     db.query(sql, (err, result) => {
@@ -30,35 +32,25 @@ const app = express();
     })
 }) */
 
-//create table
-app.get("/createpoststable", (req, res) => {
-    let sql = "CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))";
-    db.query(sql, (err, result) => {
+
+//INSER MOVIE 1
+app.get("/addmovie1", (req, res) => {
+    let movie = { title: "Movie One", director: "Robin Williams", quantity: 3 }
+    let sql = "INSERT INTO movie SET ?";
+    let query = db.query(sql, movie, (err, result) => {
         if (err) throw err;
-        console.log(result);
-        res.send("Posts table created....")
+        console.log("movie one added");
+        res.send("movie one added")
     })
 })
 
-//create users table
-app.get("/createuserstable", (req, res) => {
-    let sql = "CREATE TABLE users(id int AUTO_INCREMENT, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255), PRIMARY KEY (id))";
-    db.query(sql, (err, result) => {
+app.get("/addmovie2", (req, res) => {
+    let movie = { title: "Movie Two", director: "Robin Williams", quantity: 2 }
+    let sql = "INSERT INTO movie SET ?";
+    let query = db.query(sql, movie, (err, result) => {
         if (err) throw err;
-        console.log(result);
-        res.send("Users table created....")
-    })
-})
-
-
-//INSER POST 1
-app.get("/addpost1", (req, res) => {
-    let post = { title: "Post One", body: "This is the first post" }
-    let sql = "INSERT INTO posts SET ?";
-    let query = db.query(sql, post, (err, result) => {
-        if (err) throw err;
-        console.log("Post one added");
-        res.send("post one added")
+        console.log("movie two added");
+        res.send("movie two added")
     })
 })
 
