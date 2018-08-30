@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
+import db from "../knexfile";
+
 
 const movies = {
     list: (req, res, next) => {
@@ -9,8 +11,14 @@ const movies = {
 
     query: (req, res, next) => {
 
-        const query = req.query;
-        res.send({ query: req.query["q"].toLowerCase() });
+        db.query("SELECT * FROM posts", (err, result) => {
+
+            const query = req.query;
+            res.send(result);
+            res.send({ query: req.query["q"].toLowerCase() });
+        });
+
+
     }
 }
 
