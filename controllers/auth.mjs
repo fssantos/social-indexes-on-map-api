@@ -18,7 +18,6 @@ import knex from "../config/db";
 const auth = {
     login: (req, res, next) => {
         const { email, password } = req.body;
-        console.log(email);
         // usually this would be a database call:
         knex("user").where({ email: email }).then(result => {
             if (result.length === 0) {
@@ -32,7 +31,7 @@ const auth = {
                     var token = jwt.sign(payload, "tasmanianDevil");
                     res.json({ message: messages.LOGIN_SUCESSFULL, token: "JWT " + token });
                 } else {
-                    res.status(401).json({ messages: message.WRONG_PASSWORD });
+                    res.status(401).json({ messages: messages.WRONG_PASSWORD });
                 }
 
             }

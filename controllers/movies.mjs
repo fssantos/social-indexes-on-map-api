@@ -14,7 +14,8 @@ const movies = {
     },
 
     query: (req, res, next) => {
-        const query = req.query["q"].replace(/([A-Z]+)*([A-Z][a-z])/g, "$1 $2")
+        const query = req.query["q"].replace(/([A-Z])/g, ' $1').trim()
+        console.log(query)
         /*
             the code above tranforms UmTiraNoJardim to Um Tira No Jardim
         for example and since SQL is case/punctuation insentitive the query

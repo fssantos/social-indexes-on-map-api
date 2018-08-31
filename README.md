@@ -1,13 +1,15 @@
 # exerciseback
 
-# Usage
-
-`npm install`
-
-`npm run dev`
+Guys, you can find the API documentation right bellow on this document on the section API DOCUMENTATION.
 
 # Database usage
-You should also install knex cli command if you want to run the migrations:
+
+Create the database using:
+
+`npm run createdb`
+
+
+You should install knex cli command if you want to run the migrations:
 
 `npm install knex -g`
 
@@ -15,7 +17,20 @@ Now, to create MySQL tables:
 
 `knex migrate:latest`
 
+Now, to populate MySQL tables with some fake data:
+
+`knex seed:run`
+
+# Usage
+
+`npm install`
+
+`npm run dev`
+
+
+
 # Database design
+
 On MySQL database three tables were created: user, movie, rental.
 
 `User table` stores email, name and password;
@@ -31,7 +46,6 @@ Routes related to `Auth`:
 `PUT localhost/login` 
 
 Returns a JWT token used to identify user in the next sessions. For this example considering the fact it's an exercise there is no need to send the token each time on every route. You can check the token authentication working on the `GET /localhost/login/secret` below on this document.
-
 
 | Body | Description |
 | ------ | ------ |
@@ -53,12 +67,10 @@ Returns a JWT token used to identify user in the next sessions. For this example
 | email | String: user email |
 | password | String: user password |
 
-
 | Returns | Description |
 | ------ | ------ |
 | 200 | OK |
 | 401 | already exists |
-
 
 `GET localhost/logout` 
 
@@ -74,7 +86,7 @@ Important: the JWT token is not required but it's a good idea since we can track
 
 `GET localhost/login/secret`
 
-Page just to test JWT token. If user has a token he will be able to see the return, otherwise he will see "Unauthorized". You can test it making a GET to /login, copying the token and replacing on this call as bellow:
+Page just to test JWT token. If user has a token he will be able to see the return, otherwise he will see "Unauthorized". You can get the token making a GET /login using Postman. After that, just replace the field as show bellow in order to test it.
 
 | Header | Description |
 | ------ | ------ |
@@ -100,6 +112,8 @@ Return all movies
 
 Return a movie in which title === YOUR_QUERY. Maybe a better approach would be a fuzzy filter but for this exercise it only returns one movie.
 
+YOUR_QUERY should be in the following format: "UmTiraNoJardimDeInfancia".
+
 | Parameters | Description |
 | ------ | ------ |
 | YOUR QUERY | String: movie title to search |
@@ -124,11 +138,13 @@ Return all rents. A possible approach is to return only rents on which foreign k
 
 `POST localhost/rents` 
 
-Create a rent on database which status = rented (means the user rented and therefore the movie is with him). Again, here we should recognize the user through its JWT token and validates it (see header below). Right it always create the rent and says it belongs to user on which id === 1;
+Create a rent on database which status = rented (means the user rented and therefore the movie is with him). It automatically updates movie_id model quantity using `SELECT ... FOR UPDATE` to avoid concurrency on database. 
 
-| Headers | Description |
+Again, here we should recognize the user through its JWT token and validates it (see header below). Right now it always create the rent and says it belongs to user on which id === 1;
+
+| Body | Description |
 | ------ | ------ |
-| Authorization | String: JWT Token |
+| movie_id | String: Movie user is renting |
 
 `PUT localhost/rents/id` 
 
