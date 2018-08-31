@@ -73,7 +73,8 @@ Returns a JWT token used to identify user in the next sessions. For this example
 Important: the JWT token is not required but it's a good idea since we can track users logout once we have their token.
 
 `GET localhost/login/secret`
-Page just to test JWT token. If user has a token he will be able to see the return, otherwise he will see "Unauthorized".
+
+Page just to test JWT token. If user has a token he will be able to see the return, otherwise he will see "Unauthorized". You can test it making a GET to /login, copying the token and replacing on this call as bellow:
 
 | Header | Description |
 | ------ | ------ |
@@ -96,6 +97,7 @@ Return all movies
 | 200 | OK |
 
 `GET localhost/movies/search/q=YOUR QUERY` 
+
 Return a movie in which title === YOUR_QUERY. Maybe a better approach would be a fuzzy filter but for this exercise it only returns one movie.
 
 | Parameters | Description |
