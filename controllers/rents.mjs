@@ -4,8 +4,15 @@
 import knex from "../config/db";
 
 
+const messages = {
+    ALREADY_DID_OPERATION: "Already did operation",
+    RENTED_SUCESSFULLY: "The movie is yours!",
+    RETURNED_SUCESSFULLY: "The movie is back!"
+
+}
 const rentStatus = {
-    RENTED: "rented"
+    RENTED: "rented",
+    RETURNED: "returned"
 }
 
 
@@ -39,16 +46,42 @@ const rents = {
     update(req, res, next) {
         const id = req.params.id || "";
         const { status } = req.body;
-        const returned_on = Date.now();
 
-        knex('rent').where({ id: id }).update({
-            status,
-            returned_on
-        }).then(result => { res.status(200).json({ message: "returned ok!" }); });
+        if (status === rentStatus.RENTED) {
 
+            knex('rent').select("*").where({ id: id }).then((rent) => {
+                if (rent[0].status !== status) {
+                    knex.transaction(trx => {
+                        knex("movie").select("*").where({ id: rent[0].movie_id }).andWhere('quantity', '>', 0).forUpdate().
+                            decrement("quantity", 1).then(() => {
+                                knex("rent").select("*").where({ id: id }).update({
+                                    status: status,
+                                    returned_on: Date.now(),
+                                }).then(() => { res.status(200).json(messages.RENTED_SUCESSFULLY); trx.commit; })
+                                    .catch(() => trx.rollback);
+                            }).catch(() => trx.rollback);
+                    }).catch(err => console.log(err))
+                } else { res.status(409).json(messages.ALREADY_DID_OPERATION) }
+            })
+        }
+        else if (status === rentStatus.RETURNED) {
+            knex('rent').select("*").where({ id: id }).then((rent) => {
+                if (rent[0].status !== status) {
+                    knex.transaction(trx => {
+                        knex("movie").where({ id: rent[0].movie_id }).forUpdate().
+                            increment("quantity", 1).then(() => {
+                                knex("rent").select("*").where({ id: id }).update({
+                                    status: status,
+                                    returned_on: Date.now(),
+                                }).then(() => { res.status(200).json(messages.RETURNED_SUCESSFULLY); trx.commit; })
+                                    .catch(() => trx.rollback);
+                            }).catch((err) => { console.log(err); trx.rollback });
+                    }).catch(err => console.log(err))
+                } else { res.status(409).json(messages.ALREADY_DID_OPERATION) }
+            })
+
+        }
     },
-
-
 }
 
 export default rents;

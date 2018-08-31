@@ -12,25 +12,7 @@ const messages = {
 }
 
 import jwt from "jsonwebtoken";
-import _ from "lodash";
-
-
 import knex from "../config/db";
-
-const emailExists = "SELECT * FROM users WHERE "
-
-var users = [
-    {
-        id: 1,
-        name: 'filipe',
-        password: '12345'
-    },
-    {
-        id: 2,
-        name: 'test',
-        password: 'test'
-    }
-];
 
 
 const auth = {
