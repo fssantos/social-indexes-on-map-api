@@ -8,7 +8,7 @@ import passport from "passport"
 const router = express.Router();
 
 router.get("/secret", passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json("Success! You can not see this with a token");
+    res.json("You are authenticated! Otherwise you wont see it.");
 });
 
 router.post("/", controller.signup);
