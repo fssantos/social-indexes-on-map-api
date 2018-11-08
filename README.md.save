@@ -4,10 +4,6 @@ Guys, you can find the API documentation right bellow on this document on the se
 
 # Database usage
 
-Start xampp (SQL server) using:
-
-`cd /opt/lampp`
-`sudo ./xampp start`
 
 Create the database using:
 

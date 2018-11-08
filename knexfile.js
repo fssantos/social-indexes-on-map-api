@@ -1,8 +1,9 @@
 module.exports = {
-    client: 'mysql',
+    client: 'mysql2',
     connection: {
+        host: 'tcc.ca7acfhl2dab.sa-east-1.rds.amazonaws.com',
         user: 'root',
-        password: '',
-        database: '4all'
+        password: 'J5Ja^ptvCM89',
+        database: 'tcc'
     }
 }
