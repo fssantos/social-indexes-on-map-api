@@ -17,6 +17,20 @@ class PnudController {
 
         }
     }
+
+    static async search(req, res, next) {
+        const field = req.query.type;
+
+        try {
+
+            const pnud = await PnudModel.listBy(field);
+
+            res.send(pnud)
+        } catch (e) {
+            res.send(401).json({ code: 'error' })
+
+        }
+    }
 }
 
 

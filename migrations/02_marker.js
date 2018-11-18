@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
         t.string('neighborhood').nullable();
         t.string('activity').nullable();
         t.string('pnudId').nullable();
-        t.enum('type', ['ULTRA', 'MIX', 'NATURA', 'UNDEFINED']).defaultTo('UNDEFINED').nullable();
+        t.enum('type', ['ULTRA', 'MIX', 'NATURA', 'UNDEFINED', 'FEIRA', 'FEIRA_ORGANICA']).defaultTo('UNDEFINED').nullable();
         t.string('lat').nullable();
         t.string('lng').nullable();
 
